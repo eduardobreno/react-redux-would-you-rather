@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import LoadingBar from 'react-redux-loading'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import LoadingBar from 'react-redux-loading';
 
 import { getAllUsers } from '../utils/api';
+import Login from './Login';
 
 class App extends Component {
   componentDidMount() {
@@ -10,24 +12,15 @@ class App extends Component {
   }
 
   render() {
-    const { list } = this.props;
     return (
-      <div className="App">
+      <Router>
         <LoadingBar />
-
-        {Object.keys(list).map(function (key) {
-          return list[key].name
-        })
-        }
-      </div>
+        <div className="App">
+          <Route path='/' exact component={Login} />
+        </div>
+      </Router>
     );
   }
 }
 
-function mapStateToProps({ users }) {
-  return {
-    list: users
-  }
-}
-
-export default connect(mapStateToProps)(App)
+export default connect()(App)
