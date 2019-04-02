@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/shared';
 
 class Nav extends Component {
 
     handleLogout = () => {
-        const { dispatch } = this.props;
+        const { dispatch, history } = this.props;
         dispatch(logout());
+        history.push("/");
     }
 
     render() {
@@ -28,4 +30,4 @@ function mapStateToProps(authedUser) {
     return authedUser;
 }
 
-export default connect(mapStateToProps)(Nav)
+export default withRouter(connect(mapStateToProps)(Nav))
