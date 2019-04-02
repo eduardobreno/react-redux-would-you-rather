@@ -5,6 +5,8 @@ import LoadingBar from 'react-redux-loading';
 
 import { getAllUsers } from '../utils/api';
 import Login from './Login';
+import Nav from './Nav';
+import Dashboard from './Dashboard';
 
 class App extends Component {
   componentDidMount() {
@@ -14,9 +16,11 @@ class App extends Component {
   render() {
     return (
       <Router>
+        <Nav />
         <LoadingBar />
         <div className="App">
           <Route path='/' exact component={Login} />
+          <Route path='/home' exact component={Dashboard} />
         </div>
       </Router>
     );
