@@ -13,9 +13,9 @@ export function handleInitialData() {
     }
 }
 
-export function login(user_id, users) {
+export function login(user_id) {
     return (dispatch) => {
-        return dispatch(setAuthedUser(user_id, users));
+        return dispatch(setAuthedUser(user_id));
     };
 }
 
