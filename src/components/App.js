@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoadingBar from 'react-redux-loading';
 
@@ -7,6 +7,7 @@ import { getAllUsers } from '../utils/api';
 import Login from './Login';
 import Nav from './Nav';
 import Dashboard from './Dashboard';
+import PrivateRoute from '../utils/PrivateRoute';
 
 class App extends Component {
   componentDidMount() {
@@ -19,8 +20,14 @@ class App extends Component {
         <Nav />
         <LoadingBar />
         <div className="App">
-          <Route path='/' exact component={Login} />
-          <Route path='/home' exact component={Dashboard} />
+          <Switch>
+            <Route path='/' exact component={Login} />
+            <PrivateRoute path='/home' exact component={Dashboard} />
+            {/* when none of the above match, <NoMatch> will be rendered */}
+            <Route component={Login} />
+          </Switch>
+
+
         </div>
       </Router>
     );
