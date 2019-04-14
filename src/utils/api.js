@@ -1,6 +1,7 @@
 import { showLoading, hideLoading } from 'react-redux-loading';
-import { _getUsers } from './_DATA.js';
+import { _getUsers, _getQuestions } from './_DATA.js';
 import { receiveUsers } from '../actions/users';
+import { receiveQuestions } from '../actions/questions';
 
 
 export function getAllUsers () {
@@ -12,4 +13,15 @@ export function getAllUsers () {
           dispatch(hideLoading())
         })
     }
+}
+
+export function getAllQuestions () {
+  return (dispatch) => {
+    dispatch(showLoading())
+    return _getQuestions()
+      .then((questions) => {
+        dispatch(receiveQuestions(questions))
+        dispatch(hideLoading())
+      })
+  }
 }

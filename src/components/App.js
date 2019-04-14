@@ -23,11 +23,8 @@ class App extends Component {
           <Switch>
             <Route path='/' exact component={Login} />
             <PrivateRoute path='/home' exact component={Dashboard} />
-            {/* when none of the above match, <NoMatch> will be rendered */}
             <Route component={Login} />
           </Switch>
-
-
         </div>
       </Router>
     );
