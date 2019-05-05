@@ -8,6 +8,7 @@ import Login from './Login';
 import Nav from './Nav';
 import Dashboard from './Dashboard';
 import PrivateRoute from '../utils/PrivateRoute';
+import Leaderboard from './Leaderboard';
 
 class App extends Component {
   componentDidMount() {
@@ -23,6 +24,7 @@ class App extends Component {
           <Switch>
             <Route path='/' exact component={Login} />
             <PrivateRoute path='/home' exact component={Dashboard} />
+            <PrivateRoute path='/leaderboard' exact component={Leaderboard} />
             <Route component={Login} />
           </Switch>
         </div>

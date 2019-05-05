@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/shared';
 
@@ -18,7 +18,7 @@ class Nav extends Component {
             <div className="container">
                 <b>Home</b> -
                 <b>New Question</b> -
-                <b>Leader Board</b> -
+                <Link to={`/leaderboard`}><b>LeaderBoard</b></Link> -
                 {authedUser && <b>Hello {authedUser.name} -</b>}
                 {authedUser && <button onClick={this.handleLogout}><b>Logout</b></button>}
             </div>

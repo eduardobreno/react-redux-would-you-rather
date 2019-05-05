@@ -36,7 +36,7 @@ class Login extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <select onChange={this.handleChange}>
                         <option key="0">{optMsg}</option>
-                        {usersKey.map(function (key) {
+                        {usersKey.map((key) => {
                             return <option value={users[key].id} key={users[key].id}>{users[key].name}</option>
                         })
                         }

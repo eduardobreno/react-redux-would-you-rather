@@ -27,9 +27,7 @@ function mapStateToProps({ questions, authedUser }) {
             questions[key].optionTwo.votes.indexOf(authedUser.id) !== -1) {
             answered.push(questions[key]);
         }
-    });
 
-    Object.keys(questions).forEach(key => {
         if (questions[key].optionOne.votes.indexOf(authedUser.id) === -1 &&
             questions[key].optionTwo.votes.indexOf(authedUser.id) === -1) {
             unanswered.push(questions[key]);
