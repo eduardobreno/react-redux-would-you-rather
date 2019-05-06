@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getAllQuestions } from '../utils/api';
-import Questions from './Questions';
 
 class Leaderboard extends Component {
 

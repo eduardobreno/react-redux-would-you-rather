@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Dropdown, Button, Form } from 'semantic-ui-react'
+
 import { login } from '../actions/shared';
 
 class Login extends Component {
     state = { user_id: null }
 
-    handleChange = (e) => {
-        const user_id = e.target.value;
+    handleChange = (e, { value }) => {
+        const user_id = value;
         this.setState(() => ({
             user_id
         }))
@@ -30,19 +32,38 @@ class Login extends Component {
         const { users } = this.props;
         const usersKey = Object.keys(users);
         const optMsg = usersKey.length ? "Select a user" : "Wait while loading";
+
+        const usersOptions = usersKey.map((key) => {
+            return {
+                key: users[key].id,
+                text: users[key].name,
+                value: users[key].id,
+                image: { avatar: true, src: users[key].avatarURL },
+            }
+        });
+
         return (
-            <div className="container">
-                <h2>Sing in</h2>
-                <form onSubmit={this.handleSubmit}>
-                    <select onChange={this.handleChange}>
-                        <option key="0">{optMsg}</option>
-                        {usersKey.map((key) => {
-                            return <option value={users[key].id} key={users[key].id}>{users[key].name}</option>
-                        })
-                        }
-                    </select>
-                    <input type="submit" value="Sing in" />
-                </form>
+            <div className="containerLogin" style={{ textAlign: 'center' }}>
+                <h3>Welcome to the Would You Rather App!</h3>
+                <h5>Please sign in to continue</h5>
+                <Form onSubmit={this.handleSubmit}>
+                    <Form.Field>
+
+                        <Dropdown
+                            onChange={this.handleChange}
+                            placeholder={optMsg}
+                            fluid
+                            selection
+                            options={usersOptions}
+                        />
+                    </Form.Field>
+
+                    <Button
+                        type="submit"
+                        color='blue'
+                        fluid
+                        content='Sing in' />
+                </Form>
             </div>
         );
     }
