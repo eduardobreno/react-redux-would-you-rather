@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Menu } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react';
 
 import { logout } from '../actions/shared';
 
