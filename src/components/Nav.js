@@ -1,27 +1,62 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Menu } from 'semantic-ui-react'
+
 import { logout } from '../actions/shared';
 
 class Nav extends Component {
+    state = { activeItem: '/' }
 
     handleLogout = () => {
-        const { dispatch, history } = this.props;
+        const { dispatch } = this.props;
+        this.setState({ activeItem: 'logout' })
         dispatch(logout());
-        history.push("/");
+        this.handleNavigation("/");
     }
 
+    handleNavigation = (url) => {
+        const { history } = this.props;
+        this.setState({ activeItem: url })
+        history.push(url);
+    }
+
+    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
+
     render() {
+        const { activeItem } = this.state
         const { authedUser } = this.props;
 
         return (
-            <div className="container">
-                <b>Home</b> -
-                <b>New Question</b> -
-                <Link to={`/leaderboard`}><b>LeaderBoard</b></Link> -
-                {authedUser && <b>Hello {authedUser.name} -</b>}
-                {authedUser && <button onClick={this.handleLogout}><b>Logout</b></button>}
-            </div>
+
+            <Menu pointing secondary>
+                <Menu.Item name='home'
+                    active={activeItem === '/home'}
+                    onClick={()=>{this.handleNavigation("/home")}}
+                />
+                <Menu.Item
+                    name='New Question'
+                    active={activeItem === 'New Question'}
+                    onClick={this.handleItemClick}
+                />
+                <Menu.Item
+                    name='LeaderBoard'
+                    active={activeItem === '/leaderboard'}
+                    onClick={()=>{this.handleNavigation("/leaderboard")}}
+                />
+                {authedUser &&
+                    <Menu.Menu color="purple" position='right'>
+                        <Menu.Item
+                            name={`Hello, ${authedUser.name}`}
+                        />
+                        <Menu.Item
+                            name='logout'
+                            active={activeItem === 'logout'}
+                            onClick={this.handleLogout}
+                        />
+                    </Menu.Menu>}
+            </Menu>
         );
     }
 }
