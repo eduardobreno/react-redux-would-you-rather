@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Button, Card } from 'semantic-ui-react';
+import { Grid, Button, Card, Image } from 'semantic-ui-react';
 
 class QuestionItem extends Component {
 
@@ -8,29 +8,27 @@ class QuestionItem extends Component {
         console.log(this.props.item)
         return (
             <Card centered>
-            <Card.Content>
-                <Grid columns={1} style={{ textAlign: 'center' }}>
-                    <Grid.Row>
-                        <Grid.Column>
-                            <p>Image Here </p>
-                            <p>{author} asks:</p>
-                            <p>Would you rather</p>
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row columns={2} divided>
-                        <Grid.Column style={{ textAlign: 'right' }}>
-                            {optionOne.text}
-                        </Grid.Column>
-                        <Grid.Column style={{ textAlign: 'left' }}>
-                            {optionTwo.text}
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-                        <Grid.Column>
-                            <Button>View Poll</Button>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
+                <Card.Content>
+                    <Image floated='left' size='mini' src={avatarURL} />
+                    <Card.Header>{author}</Card.Header>
+                    <Card.Meta>asks</Card.Meta>
+                    <Card.Description>
+                        <Grid>
+                            <Grid.Row columns={2} divided>
+                                <Grid.Column style={{ textAlign: 'right' }}>
+                                    {optionOne.text}
+                                </Grid.Column>
+                                <Grid.Column style={{ textAlign: 'left' }}>
+                                    {optionTwo.text}
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
+                    </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                    <Button fluid color='blue'>
+                        View Poll
+                    </Button>
                 </Card.Content>
             </Card>
         );
