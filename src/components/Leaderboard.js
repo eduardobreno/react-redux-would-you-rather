@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getAllQuestions } from '../utils/api';
+import LeaderboardItem from './LeaderboardItem';
 
 class Leaderboard extends Component {
 
@@ -13,15 +14,7 @@ class Leaderboard extends Component {
         return (
             <div className="container">
                 {leaderBoard.map(user => {
-                    return (
-                        <ol>
-                            <li>
-                                <img src={user.avatarURL} /><br />
-                                {user.name} <br />
-                                answered: {user.answered} <br />
-                                asked: {user.asked}</li>
-                        </ol>
-                    );
+                    return  <LeaderboardItem key={user.id} user={user} />
                 })}
             </div>
         );

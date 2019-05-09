@@ -5,7 +5,7 @@ class QuestionItem extends Component {
 
     render() {
         const { author, avatarURL, optionOne, optionTwo } = this.props.item;
-        console.log(this.props.item)
+
         return (
             <Card centered>
                 <Card.Content>
