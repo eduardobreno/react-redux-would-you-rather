@@ -12,6 +12,7 @@ import Nav from './Nav';
 import Dashboard from './Dashboard';
 import PrivateRoute from '../utils/PrivateRoute';
 import Leaderboard from './Leaderboard';
+import QuestionDetail from './QuestionDetail';
 
 class App extends Component {
   componentDidMount() {
@@ -21,7 +22,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Grid centered columns={2}>
+        <Grid style={{ marginLeft: "auto", marginRight: "auto", maxWidth:"800px"}}>
           <Grid.Column>
             <Nav />
             <LoadingBar />
@@ -30,6 +31,7 @@ class App extends Component {
                 <Route path='/' exact component={Login} />
                 <PrivateRoute path='/home' exact component={Dashboard} />
                 <PrivateRoute path='/leaderboard' exact component={Leaderboard} />
+                <PrivateRoute path='/questions/:id' exact component={QuestionDetail} />
                 <Route component={Login} />
               </Switch>
             </div>

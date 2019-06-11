@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import { Grid, Button, Card, Image } from 'semantic-ui-react';
 
-class QuestionItem extends Component {
+class QuestionDetail extends Component {
 
     render() {
-        const { id, author, avatarURL, optionOne, optionTwo } = this.props.item;
+        const { id, author, avatarURL, optionOne, optionTwo } = this.props.question;
 
         return (
             <Card centered>
                 <Card.Content>
                     <Image floated='left' size='mini' src={avatarURL} />
                     <Card.Header>{author}</Card.Header>
-                    <Card.Meta>asks</Card.Meta>
+                    <Card.Meta>asked</Card.Meta>
                     <Card.Description>
                         <Grid>
                             <Grid.Row columns={2} divided>
@@ -38,4 +39,9 @@ class QuestionItem extends Component {
     }
 }
 
-export default withRouter(QuestionItem);
+function mapStateToProps({ questions }, { match }) {
+    const { params } = match;
+    return { question: questions[params.id] };
+}
+
+export default connect(mapStateToProps)(QuestionDetail)
