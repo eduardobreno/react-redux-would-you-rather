@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Grid, Button, Card, Image } from 'semantic-ui-react';
+import { formatQuestionObject } from '../utils/questionsUtil';
 
 class QuestionDetail extends Component {
 
     render() {
         const { id, author, avatarURL, optionOne, optionTwo } = this.props.question;
-
+        console.log(this.props)
         return (
             <Card centered>
                 <Card.Content>
@@ -28,20 +29,22 @@ class QuestionDetail extends Component {
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
-                    <Button fluid color='blue' onClick={() => {
-                        this.props.history.push(`questions/${id}`);
-                    }}>
-                        View Poll
-                    </Button>
+
+                    {this.props.isAnswered}
+
                 </Card.Content>
             </Card >
         );
     }
 }
 
-function mapStateToProps({ questions }, { match }) {
+function mapStateToProps({ questions, authedUser, users }, { match }) {
     const { params } = match;
-    return { question: questions[params.id] };
+
+    return {
+        question: formatQuestionObject(questions[params.id], users),
+        isAnswered: params.id in authedUser.answers
+    };
 }
 
 export default connect(mapStateToProps)(QuestionDetail)

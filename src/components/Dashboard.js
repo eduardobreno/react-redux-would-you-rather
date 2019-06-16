@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getAllQuestions } from '../utils/api';
 import QuestionList from './QuestionList';
+import { getQuestionsStatus } from '../utils/questionsUtil';
 
 class Dashboard extends Component {
 
@@ -20,25 +21,7 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps({ questions, authedUser, users }) {
-    let answered = [];
-    let unanswered = [];
-    Object.keys(questions).forEach(key => {
-        if (questions[key].optionOne.votes.indexOf(authedUser.id) !== -1 ||
-            questions[key].optionTwo.votes.indexOf(authedUser.id) !== -1) {
-            answered.push(formatQuestionObject(questions[key], users));
-        }
-
-        if (questions[key].optionOne.votes.indexOf(authedUser.id) === -1 &&
-            questions[key].optionTwo.votes.indexOf(authedUser.id) === -1) {
-            unanswered.push(formatQuestionObject(questions[key], users));
-        }
-    });
-    return { unanswered, answered };
+    return getQuestionsStatus(questions, authedUser, users);
 }
-
-function formatQuestionObject(question, users) {
-    return { ...question, avatarURL: users[question.author].avatarURL };
-}
-
 
 export default connect(mapStateToProps)(Dashboard)
