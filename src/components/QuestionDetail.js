@@ -1,37 +1,71 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import { Grid, Button, Card, Image } from 'semantic-ui-react';
 import { formatQuestionObject } from '../utils/questionsUtil';
+import { QuestionDetailResultOption } from './QuestionDetailResultOption';
 
 class QuestionDetail extends Component {
 
     render() {
-        const { id, author, avatarURL, optionOne, optionTwo } = this.props.question;
-        console.log(this.props)
+        const { author, avatarURL, optionOne, optionTwo } = this.props.question;
+        const { isAnswered, isOptionOne, isOptionTwo, statistics } = this.props;
         return (
             <Card centered>
                 <Card.Content>
                     <Image floated='left' size='mini' src={avatarURL} />
                     <Card.Header>{author}</Card.Header>
-                    <Card.Meta>asked</Card.Meta>
+                    <Card.Meta>{isAnswered ? 'asked' : 'asks'}</Card.Meta>
                     <Card.Description>
-                        <Grid>
-                            <Grid.Row columns={2} divided>
-                                <Grid.Column style={{ textAlign: 'right' }}>
-                                    {optionOne.text}
-                                </Grid.Column>
-                                <Grid.Column style={{ textAlign: 'left' }}>
-                                    {optionTwo.text}
-                                </Grid.Column>
-                            </Grid.Row>
+                        <Grid celled>
+                            {!isAnswered &&
+                                <Fragment>
+                                    <Grid.Row>
+                                        <Grid.Column style={{ textAlign: 'center' }}>
+                                            <h3>Would You Rather...</h3>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    <Grid.Row>
+                                        <Grid.Column style={{ textAlign: 'center' }}>
+                                            <Button.Group>
+                                                <Button style={style}>{optionOne.text}</Button>
+                                                <Button.Or text='or' />
+                                                <Button style={style} positive>{optionTwo.text}</Button>
+                                            </Button.Group>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    <Grid.Row>
+                                        <Grid.Column style={{ textAlign: 'center' }}>
+                                            <Button positive fluid>
+                                                SUBMIT
+                                        </Button>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                </Fragment>
+                            }
+                            {isAnswered &&
+                                <Fragment>
+                                    <Grid.Row>
+                                        <Grid.Column style={{ textAlign: 'center' }}>
+                                            <h3>Results</h3>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    <QuestionDetailResultOption
+                                        isAnswered={isOptionOne}
+                                        text={optionOne.text}
+                                        qtd={statistics.qtdOne}
+                                        total={statistics.totalVotes}
+                                    />
+                                    <QuestionDetailResultOption
+                                        isAnswered={isOptionTwo}
+                                        text={optionTwo.text}
+                                        qtd={statistics.qtdTwo}
+                                        total={statistics.totalVotes}
+                                    />
+                                </Fragment>
+                            }
                         </Grid>
                     </Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-
-                    {this.props.isAnswered}
-
                 </Card.Content>
             </Card >
         );
@@ -40,11 +74,24 @@ class QuestionDetail extends Component {
 
 function mapStateToProps({ questions, authedUser, users }, { match }) {
     const { params } = match;
+    const q = formatQuestionObject(questions[params.id], users);
+
+    const qtdOne = q.optionOne.votes.length;
+    const qtdTwo = q.optionTwo.votes.length;
+    const totalVotes = qtdOne + qtdTwo;
 
     return {
-        question: formatQuestionObject(questions[params.id], users),
-        isAnswered: params.id in authedUser.answers
+        question: q,
+        statistics: { qtdOne, qtdTwo, totalVotes },
+        isAnswered: params.id in authedUser.answers,
+        isOptionOne: authedUser.answers[params.id] === 'optionOne',
+        isOptionTwo: authedUser.answers[params.id] === 'optionTwo',
     };
+}
+
+const style = {
+    wordBreak: "break-word",
+    maxWidth: "120px"
 }
 
 export default connect(mapStateToProps)(QuestionDetail)
