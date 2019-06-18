@@ -1,12 +1,15 @@
 import React from 'react';
 import { Grid, Progress, Label } from 'semantic-ui-react';
 
-export const QuestionDetailResultOption = ({ text, isAnswered, qtd, total }) =>
-    (
+export const QuestionDetailResultOption = ({ text, isAnswered, qtd, total }) => {
+
+    let shadow = isAnswered && "inset 0px 0px 20px 0px green";
+
+    return (
         <Grid.Row>
-            <Grid.Column style={{ textAlign: 'center' }}>
+            <Grid.Column style={{ textAlign: 'center', boxShadow: shadow }}>
                 {isAnswered &&
-                    <Label as='a' color='yellow' attached='top right'>
+                    <Label as='a' color='green' attached='top right'>
                         Your vote
                     </Label>
                 }
@@ -18,4 +21,5 @@ export const QuestionDetailResultOption = ({ text, isAnswered, qtd, total }) =>
                     color='blue' />
             </Grid.Column>
         </Grid.Row>
-    );
+    )
+}
