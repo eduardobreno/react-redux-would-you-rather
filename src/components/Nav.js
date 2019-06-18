@@ -33,17 +33,17 @@ class Nav extends Component {
             <Menu pointing secondary>
                 <Menu.Item name='home'
                     active={activeItem === '/home'}
-                    onClick={()=>{this.handleNavigation("/home")}}
+                    onClick={() => { this.handleNavigation("/home") }}
                 />
                 <Menu.Item
                     name='New Question'
-                    active={activeItem === 'New Question'}
-                    onClick={this.handleItemClick}
+                    active={activeItem === '/add'}
+                    onClick={() => { this.handleNavigation("/add") }}
                 />
                 <Menu.Item
                     name='LeaderBoard'
                     active={activeItem === '/leaderboard'}
-                    onClick={()=>{this.handleNavigation("/leaderboard")}}
+                    onClick={() => { this.handleNavigation("/leaderboard") }}
                 />
                 {authedUser &&
                     <Menu.Menu color="purple" position='right'>

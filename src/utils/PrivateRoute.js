@@ -5,11 +5,16 @@ import { connect } from 'react-redux';
 class PrivateRoute extends Component {
     render() {
         const { component: Component, ...rest } = this.props;
-        return <Route {...rest} render={(props) => (
-            !!rest.authedUser
-                ? <Component {...props} />
-                : <Redirect to='/' />
-        )} />
+        return <Route {...rest} render={(props) => {
+            return (
+                !!rest.authedUser
+                    ? <Component {...props} />
+                    : <Redirect to={{
+                        pathname: '/',
+                        state: { redirectTo: props.location }
+                    }} />
+            )
+        }} />
     }
 }
 

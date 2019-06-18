@@ -13,6 +13,7 @@ import Dashboard from './Dashboard';
 import PrivateRoute from '../utils/PrivateRoute';
 import Leaderboard from './Leaderboard';
 import QuestionDetail from './QuestionDetail';
+import QuestionAdd from './QuestionAdd';
 
 class App extends Component {
   componentDidMount() {
@@ -31,6 +32,7 @@ class App extends Component {
                 <Route path='/' exact component={Login} />
                 <PrivateRoute path='/home' exact component={Dashboard} />
                 <PrivateRoute path='/leaderboard' exact component={Leaderboard} />
+                <PrivateRoute path='/add' exact component={QuestionAdd} />
                 <PrivateRoute path='/questions/:id' exact component={QuestionDetail} />
                 <Route component={Login} />
               </Switch>
