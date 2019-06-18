@@ -1,6 +1,5 @@
-import { SET_AUTHED_USER } from '../actions/authedUser';
-import { SET_LOGOUT_USER } from '../actions/authedUser';
-import { ADD_ANSWER } from '../actions/users';
+import { SET_AUTHED_USER, SET_LOGOUT_USER } from '../actions/authedUser';
+import { ADD_ANSWER } from '../actions/questions';
 
 export default function authedUser(state = null, action) {
 

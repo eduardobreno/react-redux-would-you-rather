@@ -4,7 +4,7 @@ import { Grid, Button, Card, Image } from 'semantic-ui-react';
 
 import { formatQuestionObject } from '../utils/questionsUtil';
 import { QuestionDetailResultOption } from './QuestionDetailResultOption';
-import { addAnswer } from '../actions/users';
+import { addAnswer } from '../actions/shared';
 
 const OPT_ONE = "optionOne";
 const OPT_TWO = "optionTwo";
