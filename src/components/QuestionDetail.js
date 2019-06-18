@@ -1,11 +1,25 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-
 import { Grid, Button, Card, Image } from 'semantic-ui-react';
+
 import { formatQuestionObject } from '../utils/questionsUtil';
 import { QuestionDetailResultOption } from './QuestionDetailResultOption';
+import { addAnswer } from '../actions/users';
+
+const OPT_ONE = "optionOne";
+const OPT_TWO = "optionTwo";
 
 class QuestionDetail extends Component {
+    state = {
+        answer: ''
+    }
+
+    handleSubmit = () => {
+        const { dispatch, question, authedUser } = this.props;
+        const { answer } = this.state;
+
+        dispatch(addAnswer(authedUser, question.id, answer));
+    }
 
     render() {
         const { author, avatarURL, optionOne, optionTwo } = this.props.question;
@@ -28,17 +42,25 @@ class QuestionDetail extends Component {
                                     <Grid.Row>
                                         <Grid.Column style={{ textAlign: 'center' }}>
                                             <Button.Group>
-                                                <Button style={style}>{optionOne.text}</Button>
+                                                <Button style={style}
+                                                    positive={this.state.answer === OPT_ONE}
+                                                    onClick={() => { this.setState({ answer: OPT_ONE }) }}>
+                                                    {optionOne.text}
+                                                </Button>
                                                 <Button.Or text='or' />
-                                                <Button style={style} positive>{optionTwo.text}</Button>
+                                                <Button style={style}
+                                                    positive={this.state.answer === OPT_TWO}
+                                                    onClick={() => { this.setState({ answer: OPT_TWO }) }}>
+                                                    {optionTwo.text}
+                                                </Button>
                                             </Button.Group>
                                         </Grid.Column>
                                     </Grid.Row>
                                     <Grid.Row>
                                         <Grid.Column style={{ textAlign: 'center' }}>
-                                            <Button positive fluid>
+                                            <Button positive fluid onClick={this.handleSubmit}>
                                                 SUBMIT
-                                        </Button>
+                                            </Button>
                                         </Grid.Column>
                                     </Grid.Row>
                                 </Fragment>
@@ -81,6 +103,7 @@ function mapStateToProps({ questions, authedUser, users }, { match }) {
     const totalVotes = qtdOne + qtdTwo;
 
     return {
+        authedUser,
         question: q,
         statistics: { qtdOne, qtdTwo, totalVotes },
         isAnswered: params.id in authedUser.answers,
