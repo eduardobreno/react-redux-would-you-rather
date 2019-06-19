@@ -1,6 +1,6 @@
 import { showLoading, hideLoading } from 'react-redux-loading';
-import { getAllUsers, saveAnswer } from '../utils/api';
-import { receiveUsers } from './users';
+import { getAllUsers, saveAnswer, saveQuestion } from '../utils/api';
+import { receiveUsers, addQuestionUser } from './users';
 import { setAuthedUser, setLogoutUser } from './authedUser';
 import { addAnswerQuestion } from './questions';
 
@@ -37,6 +37,20 @@ export function addAnswer(authedUser, qid, answer) {
         saveAnswer(obj).then(() => {
             dispatch(addAnswerQuestion(authedUser, qid, answer));
             dispatch(hideLoading());
+        });
+    }
+}
+
+export function addQuestion(authedUser, optionOne, optionTwo) {
+    return (dispatch) => {
+        dispatch(showLoading());
+        saveQuestion({
+            optionOneText: optionOne,
+            optionTwoText: optionTwo,
+            author: authedUser.id
+        }).then(question => {
+            dispatch(hideLoading());
+            dispatch(addQuestionUser(question));
         });
     }
 }

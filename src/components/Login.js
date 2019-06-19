@@ -24,9 +24,13 @@ class Login extends Component {
 
     componentDidUpdate() {
         const { history, authedUser, location } = this.props;
-        const path = location.state.redirectTo.pathname || "home";
+        let path = "home";
+        if (location.state) {
+            path = location.state.redirectTo.pathname;
+        }
+
         if (authedUser) {
-            history.push(path)
+            history.push(path, { ...location.state, redirectTo: null });
         }
     }
 

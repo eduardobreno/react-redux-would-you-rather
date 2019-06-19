@@ -5,6 +5,7 @@ import { Grid, Button, Card, Image } from 'semantic-ui-react';
 import { formatQuestionObject } from '../utils/questionsUtil';
 import { QuestionDetailResultOption } from './QuestionDetailResultOption';
 import { addAnswer } from '../actions/shared';
+import NotFound from './NotFound';
 
 const OPT_ONE = "optionOne";
 const OPT_TWO = "optionTwo";
@@ -22,6 +23,8 @@ class QuestionDetail extends Component {
     }
 
     render() {
+        if (this.props.notFound) return <NotFound />
+
         const { author, avatarURL, optionOne, optionTwo } = this.props.question;
         const { isAnswered, isOptionOne, isOptionTwo, statistics } = this.props;
         return (
@@ -96,6 +99,12 @@ class QuestionDetail extends Component {
 
 function mapStateToProps({ questions, authedUser, users }, { match }) {
     const { params } = match;
+    let notFound = false;
+    if (questions[params.id] === undefined) {
+        return {
+            notFound: true
+        }
+    }
     const q = formatQuestionObject(questions[params.id], users);
 
     const qtdOne = q.optionOne.votes.length;
@@ -103,6 +112,7 @@ function mapStateToProps({ questions, authedUser, users }, { match }) {
     const totalVotes = qtdOne + qtdTwo;
 
     return {
+        notFound,
         authedUser,
         question: q,
         statistics: { qtdOne, qtdTwo, totalVotes },

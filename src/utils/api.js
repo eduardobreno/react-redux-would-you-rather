@@ -1,5 +1,5 @@
 import { showLoading, hideLoading } from 'react-redux-loading';
-import { _getUsers, _getQuestions, _saveQuestionAnswer } from './_DATA.js';
+import { _getUsers, _getQuestions, _saveQuestionAnswer, _saveQuestion } from './_DATA.js';
 import { receiveUsers } from '../actions/users';
 import { receiveQuestions } from '../actions/questions';
 
@@ -27,6 +27,9 @@ export function getAllQuestions() {
 }
 
 export function saveAnswer(obj) {
-  console.log("##### ", obj)
   return _saveQuestionAnswer(obj);
+}
+
+export function saveQuestion(obj) {
+  return _saveQuestion(obj)
 }
