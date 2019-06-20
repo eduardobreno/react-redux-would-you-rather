@@ -5,7 +5,7 @@ import { Dropdown, Button, Form } from 'semantic-ui-react'
 import { login } from '../actions/shared';
 
 class Login extends Component {
-    state = { user_id: null }
+    state = { user_id: null, error: false }
 
     handleChange = (e, { value }) => {
         const user_id = value;
@@ -17,6 +17,10 @@ class Login extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const { user_id } = this.state;
+        if (user_id === null) {
+            this.setState({ error: true });
+            return;
+        }
         const { dispatch } = this.props
         dispatch(login(user_id));
 
@@ -60,10 +64,10 @@ class Login extends Component {
                             placeholder={optMsg}
                             fluid
                             selection
+                            error={this.state.error}
                             options={usersOptions}
                         />
                     </Form.Field>
-
                     <Button
                         type="submit"
                         color='blue'

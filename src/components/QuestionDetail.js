@@ -12,13 +12,14 @@ const OPT_TWO = "optionTwo";
 
 class QuestionDetail extends Component {
     state = {
-        answer: ''
+        answer: null,
+        error: false
     }
 
     handleSubmit = () => {
         const { dispatch, question, authedUser } = this.props;
         const { answer } = this.state;
-
+        if (answer === null) { this.setState({ error: true }); return }
         dispatch(addAnswer(authedUser, question.id, answer));
     }
 
@@ -46,14 +47,16 @@ class QuestionDetail extends Component {
                                         <Grid.Column style={{ textAlign: 'center' }}>
                                             <Button.Group>
                                                 <Button style={style}
+                                                    negative={this.state.error}
                                                     positive={this.state.answer === OPT_ONE}
-                                                    onClick={() => { this.setState({ answer: OPT_ONE }) }}>
+                                                    onClick={() => { this.setState({ answer: OPT_ONE, error: false }) }}>
                                                     {optionOne.text}
                                                 </Button>
                                                 <Button.Or text='or' />
                                                 <Button style={style}
+                                                    negative={this.state.error}
                                                     positive={this.state.answer === OPT_TWO}
-                                                    onClick={() => { this.setState({ answer: OPT_TWO }) }}>
+                                                    onClick={() => { this.setState({ answer: OPT_TWO, error: false }) }}>
                                                     {optionTwo.text}
                                                 </Button>
                                             </Button.Group>

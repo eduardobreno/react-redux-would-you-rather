@@ -5,11 +5,19 @@ import { addQuestion } from '../actions/shared';
 
 class QuestionAdd extends Component {
 
+    state = {
+        error: false,
+        error2: false,
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
         const { authedUser, dispatch, history } = this.props;
         const [optionOne, optionTwo] = e.target;
+        if (optionOne.value === '') { this.setState({ error: true }); return }
+        if (optionTwo.value === '') { this.setState({ error2: true }); return }
+
+
         dispatch(addQuestion(authedUser, optionOne.value, optionTwo.value));
         history.push("home");
 
@@ -30,15 +38,13 @@ class QuestionAdd extends Component {
                                 </Grid.Row>
                                 <Grid.Row>
                                     <Grid.Column style={{ textAlign: 'center' }}>
-                                        <Form.Field>
-                                            <input name="optionOne" required placeholder='Enter Option One Text here' />
-                                        </Form.Field>
+                                        <Form.Input error={this.state.error} onKeyDown={() => { this.setState({ error: false }) }} name="optionOne" placeholder='Enter Option One Text here' />
                                     </Grid.Column>
                                 </Grid.Row>
                                 <Divider horizontal>Or</Divider>
                                 <Grid.Row>
                                     <Grid.Column style={{ textAlign: 'center' }}>
-                                        <input name="optionTwo" required placeholder='Enter Option Two Text here' />
+                                        <Form.Input error={this.state.error2} onKeyDown={() => { this.setState({ error2: false }) }} name="optionTwo" placeholder='Enter Option Two Text here' />
                                     </Grid.Column>
                                 </Grid.Row>
                                 <Grid.Row>
