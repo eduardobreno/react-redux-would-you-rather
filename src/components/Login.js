@@ -43,14 +43,12 @@ class Login extends Component {
         const usersKey = Object.keys(users);
         const optMsg = usersKey.length ? "Select a user" : "Wait while loading";
 
-        const usersOptions = usersKey.map((key) => {
-            return {
-                key: users[key].id,
-                text: users[key].name,
-                value: users[key].id,
-                image: { avatar: true, src: users[key].avatarURL },
-            }
-        });
+        const usersOptions = Object.values(users).map(({ id, name, avatarURL }) => ({
+            key: id,
+            text: name,
+            value: id,
+            image: { avatar: true, src: avatarURL }
+        }))
 
         return (
             <div className="containerLogin" style={{ textAlign: 'center' }}>
