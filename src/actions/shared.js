@@ -2,7 +2,7 @@ import { showLoading, hideLoading } from 'react-redux-loading';
 import { getAllUsers, saveAnswer, saveQuestion } from '../utils/api';
 import { receiveUsers, addQuestionUser } from './users';
 import { setAuthedUser, setLogoutUser } from './authedUser';
-import { addAnswerQuestion } from './questions';
+import { addAnswerQuestion, addQuestion } from './questions';
 
 export function handleInitialData() {
     return (dispatch) => {
@@ -41,7 +41,7 @@ export function addAnswer(authedUser, qid, answer) {
     }
 }
 
-export function addQuestion(authedUser, optionOne, optionTwo) {
+export function addQuestionByUser(authedUser, optionOne, optionTwo) {
     return (dispatch) => {
         dispatch(showLoading());
         saveQuestion({
@@ -51,6 +51,7 @@ export function addQuestion(authedUser, optionOne, optionTwo) {
         }).then(question => {
             dispatch(hideLoading());
             dispatch(addQuestionUser(question));
+            dispatch(addQuestion(question));
         });
     }
 }

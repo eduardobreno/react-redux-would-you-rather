@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Button, Card, Divider, Form } from 'semantic-ui-react';
-import { addQuestion } from '../actions/shared';
+import { addQuestionByUser } from '../actions/shared';
 
 class QuestionAdd extends Component {
 
@@ -18,7 +18,7 @@ class QuestionAdd extends Component {
         if (optionTwo.value === '') { this.setState({ error2: true }); return }
 
 
-        dispatch(addQuestion(authedUser, optionOne.value, optionTwo.value));
+        dispatch(addQuestionByUser(authedUser, optionOne.value, optionTwo.value));
         history.push("home");
 
     }
