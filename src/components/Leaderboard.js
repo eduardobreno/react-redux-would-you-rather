@@ -14,7 +14,7 @@ class Leaderboard extends Component {
         return (
             <div className="container">
                 {leaderBoard.map(user => {
-                    return  <LeaderboardItem key={user.id} user={user} />
+                    return <LeaderboardItem key={user.id} user={user} />
                 })}
             </div>
         );
@@ -31,8 +31,7 @@ function mapStateToProps({ users }) {
         };
     });
     leaderBoard.sort((a, b) => {
-        return b.asked - a.asked || b.answered - a.answered;
-
+        return (b.asked + b.answered) - (a.answered + a.asked);
     });
     return { leaderBoard };
 }
