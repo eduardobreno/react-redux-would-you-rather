@@ -1,20 +1,24 @@
 export const getQuestionsStatus = (questions, authedUser, users) => {
-    let answered = [];
-    let unanswered = [];
-    Object.keys(questions).forEach(key => {
-        if (questions[key].optionOne.votes.indexOf(authedUser.id) !== -1 ||
-            questions[key].optionTwo.votes.indexOf(authedUser.id) !== -1) {
-            answered.push(formatQuestionObject(questions[key], users));
-        }
+    const answered = Object.values(questions)
+        .filter(question => isAnswered(question, authedUser.id))
+        .map(question => formatQuestionObject(question, users))
+        .sort((a, b) => {
+            return b.timestamp - a.timestamp;
+        });
+    const unanswered = Object.values(questions)
+        .filter(question => !isAnswered(question, authedUser.id))
+        .map(question => formatQuestionObject(question, users))
+        .sort((a, b) => {
+            return b.timestamp - a.timestamp;
+        });
 
-        if (questions[key].optionOne.votes.indexOf(authedUser.id) === -1 &&
-            questions[key].optionTwo.votes.indexOf(authedUser.id) === -1) {
-            unanswered.push(formatQuestionObject(questions[key], users));
-        }
-    });
     return { unanswered, answered };
 }
 
+function isAnswered(question, id) {
+    return (question.optionOne.votes.includes(id) ||
+        question.optionTwo.votes.includes(id));
+}
 
 export const formatQuestionObject = (question, users) => {
     return { ...question, avatarURL: "/" + users[question.author].avatarURL };
