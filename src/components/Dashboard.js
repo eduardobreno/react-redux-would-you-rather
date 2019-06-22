@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getAllQuestions } from '../utils/api';
+import { getAllQuestionsAfterLogin } from '../utils/api';
 import QuestionList from './QuestionList';
 import { getQuestionsStatus } from '../utils/questionsUtil';
 
 class Dashboard extends Component {
 
     componentDidMount() {
-        this.props.dispatch(getAllQuestions())
+        this.props.dispatch(getAllQuestionsAfterLogin())
     }
 
     render() {
