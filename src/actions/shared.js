@@ -1,16 +1,20 @@
 import { showLoading, hideLoading } from 'react-redux-loading';
-import { getAllUsers, saveAnswer, saveQuestion } from '../utils/api';
+import { getAllUsers, saveAnswer, saveQuestion, getAllQuestions } from '../utils/api';
 import { receiveUsers, addQuestionUser } from './users';
 import { setAuthedUser, setLogoutUser } from './authedUser';
-import { addAnswerQuestion, addQuestion } from './questions';
+import { addAnswerQuestion, addQuestion, receiveQuestions } from './questions';
 
 export function handleInitialData() {
     return (dispatch) => {
         dispatch(showLoading());
-        return getAllUsers().then(users => {
+        Promise.all([
+            getAllUsers(),
+            getAllQuestions()
+        ]).then(([users, questions]) => {
             dispatch(receiveUsers(users));
+            dispatch(receiveQuestions(questions));
             dispatch(hideLoading());
-        })
+        });
     }
 }
 
